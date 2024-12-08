@@ -1,5 +1,6 @@
 
 library(tidyverse)
+library(ggiraph)
 
 
 advent_appraisals_2024 <- read_csv("./Data/Advent Appraisal.csv") 
@@ -27,10 +28,25 @@ advent_averages <- advent_appraisals_2024 %>%
  # Pairing
  filter(advent_averages, pairing_score == max(pairing_score, na.rm = TRUE))
 
+
+ advent_appraisals_2024 %>%
+  pivot_longer(cols = c(`Tea Score (out of 10)`, 
+                        `Biscuit Score (out of 10)`, 
+                        `Combination Score (out of 10)`), 
+               names_to = "edible",
+               values_to = "score") %>%
+  filter(edible == "Tea Score (out of 10)") %>% 
+  ggplot(aes(x = Day, y = score, colour = Reviewer)) +
+  geom_line_interactive()
+  #geom_smooth(se = FALSE)
  
  
-
-
- advent_appraisals_2024
+ 
+ 
+ 
+ 
+ 
+ 
+ 
 
 
