@@ -1,0 +1,27 @@
+---
+title: "Advent Appraisal 2024"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: rows
+---
+
+Row {.tabset .tabset-fade}
+-------------------------------------
+    
+### Tea
+    
+```{r}
+
+advent_appraisals_2024 <- read_csv("./Data/Advent Appraisal.csv")
+
+```
+   
+### Biscuit
+
+```{r}
+```   
+ 
+### Pairing
+    
+```{r}
+```
