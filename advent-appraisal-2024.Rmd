@@ -1,27 +1,84 @@
 ---
 title: "Advent Appraisal 2024"
 output: 
-  flexdashboard::flex_dashboard:
-    orientation: rows
+ flexdashboard::flex_dashboard:
+  orientation: rows
+  vertical_layout: fill
+  horizontal_layout: fill
 ---
+ 
+```{r setup, include = FALSE}
 
-Row {.tabset .tabset-fade}
--------------------------------------
-    
-### Tea
-    
-```{r}
-
-advent_appraisals_2024 <- read_csv("./Data/Advent Appraisal.csv")
+source("./R/data-ingest.R")
 
 ```
-   
-### Biscuit
+
+Tea
+=================================================================
+
+Row {data-height = 150}
+------------------------------------------------------------------
+
+### Best Tea Name {.value-box}
 
 ```{r}
-```   
- 
-### Pairing
-    
+
+valueBox(value = filter(advent_averages, tea_score == max(tea_score, na.rm = TRUE)) %>% 
+          pull(`Tea Name`))
+
+```
+
+### Best Tea Score {.value-box}
+
 ```{r}
+
+valueBox(value = filter(advent_averages, tea_score == max(tea_score, na.rm = TRUE)) %>% 
+          pull(tea_score) %>% 
+          cat(sep = ", "))
+
+```
+
+### Test {.value-box}
+
+```{r}
+
+valueBox(value = cat("option1", "option2", sep = ", "))
+
+```
+
+Row {data-height = 350}
+------------------------------------------------------------------
+
+### Tea plot
+
+```{r}
+
+tea_plot
+
+```
+
+### Tea plot
+
+```{r}
+
+tea_plot
+
+```
+
+Biscuits
+=================================================================
+
+```{r}
+
+"Biscuits"
+
+```   
+
+Pairing
+=================================================================
+
+```{r}
+
+"Pairing"
+
 ```
