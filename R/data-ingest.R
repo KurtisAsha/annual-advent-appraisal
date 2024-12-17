@@ -1,22 +1,21 @@
 
 library(tidyverse)
+library(janitor)
 library(plotly)
 library(flexdashboard)
 
+advent_appraisals_2024 <- read_csv("./Data/Advent Appraisal.csv")  %>% 
+ clean_names()
 
-advent_appraisals_2024 <- read_csv("./Data/Advent Appraisal.csv") 
+pair_cols <- unique(advent_appraisals_2024$reviewer)
  
-
-#tias_link <- "https://onedrive.live.com/personal/85b6f23bc6f873c3/_layouts/15/Doc.aspx?sourcedoc=%7B586fda48-c520-4823-9a18-05e43a3f9ffa%7D&action=default&redeem=aHR0cHM6Ly8xZHJ2Lm1zL3gvYy84NWI2ZjIzYmM2Zjg3M2MzL0VVamFiMWdneFNOSW1oZ0Y1RG9fbl9vQlNybERhS0tnc2tQS2R1WmpoU3E3Tmc_ZT00OkFxMndxaiZhdD05&slrid=ca996ba1-9092-a000-bdea-d71ea00d1da2&originalPath=aHR0cHM6Ly8xZHJ2Lm1zL3gvYy84NWI2ZjIzYmM2Zjg3M2MzL0VVamFiMWdneFNOSW1oZ0Y1RG9fbl9vQlNybERhS0tnc2tQS2R1WmpoU3E3Tmc_cnRpbWU9cXNlbmQ3SVgzVWc&CID=d430dea2-2dc5-4f48-9edd-cae0fff67c25&_SRM=0:G:39"
-
-
-# Gives the highest scores
+# Gives the highest scores ####
 advent_averages <- advent_appraisals_2024 %>%
- group_by(`Tea Name`, `Biscuit Name`) %>% 
+ group_by(tea_name, biscuit_name) %>% 
  summarise(
-  tea_score = mean(`Tea Score (out of 10)`, na.rm = TRUE), 
-  biscuit_score = mean(`Biscuit Score (out of 10)`, na.rm = TRUE),
-  pairing_score = mean(`Combination Score (out of 10)`, na.rm = TRUE), 
+  tea_score = mean(tea_score_out_of_10, na.rm = TRUE), 
+  biscuit_score = mean(biscuit_score_out_of_10 , na.rm = TRUE),
+  pairing_score = mean(combination_score_out_of_10, na.rm = TRUE), 
   .groups = "drop"
  )
 
@@ -29,22 +28,162 @@ advent_averages <- advent_appraisals_2024 %>%
  # Pairing
  filter(advent_averages, pairing_score == max(pairing_score, na.rm = TRUE))
 
- gg <- advent_appraisals_2024 %>%
-  pivot_longer(cols = c(`Tea Score (out of 10)`, 
-                        `Biscuit Score (out of 10)`, 
-                        `Combination Score (out of 10)`), 
+ # Cleaned data
+ advent_appraisals_2024_clean <- advent_appraisals_2024 %>%
+  pivot_longer(cols = c(tea_score_out_of_10, 
+                        biscuit_score_out_of_10, 
+                        combination_score_out_of_10), 
                names_to = "edible",
-               values_to = "Rating") %>%
-  filter(edible == "Tea Score (out of 10)") %>% 
-  group_by(Reviewer) %>%
-  mutate(tooltip = paste0(Reviewer, ": ", Rating), 
-         max_score = if_else(max(Rating) == Rating,
-                             paste0(Reviewer, "'s Best"), NA)) %>% 
-  ggplot(aes(
-   x = Day, y = Rating, colour = Reviewer)) +
-  geom_line() +
+               values_to = "rating") %>%
+  group_by(reviewer) %>%
+  mutate(tooltip = paste0(reviewer, ": ", rating), 
+         max_score = if_else(max(rating) == rating,
+                             paste0(reviewer, "'s Best"), NA)) 
+ 
+ # Tea ####
+ 
+ gg_tea <- advent_appraisals_2024_clean %>%
+  filter(edible == "tea_score_out_of_10") %>%
+  rename(Reviewer = reviewer) %>% 
+  ggplot(aes(x = day, y = rating, colour = Reviewer)) +
+  geom_line(show.legend = FALSE) +
   geom_point() +
-  geom_text(aes(label = max_score)) +
   theme_minimal()
  
- tea_plot <- ggplotly(gg) 
+ tea_plot <- ggplotly(gg_tea) %>%
+  add_text(x = ~day, y = ~rating, showlegend = FALSE, legendgroup = ~Reviewer,
+           text = ~max_score, textposition = "topright")
+ 
+tea_scoresheet <- advent_appraisals_2024 %>% 
+  group_by(day) %>% 
+  select(day, reviewer, tea_score_out_of_10)
+
+tea_closest_score <- left_join(tea_scoresheet, 
+            tea_scoresheet %>%  
+             pivot_wider(names_from = reviewer, values_from = tea_score_out_of_10),
+            by = "day") %>% 
+  pivot_longer(names_to = "pair_name", values_to = "pair_score", cols = all_of(pair_cols)) %>% 
+  filter(reviewer != pair_name) %>% 
+  mutate(score_diff = abs(tea_score_out_of_10 - pair_score)) %>% 
+  group_by(reviewer, pair_name) %>% 
+  summarise(
+   total_abs_difference = sum(score_diff, na.rm = TRUE), .groups = "drop"
+  )
+ 
+gg_tea_close_score <- tea_closest_score %>% 
+  rename(Reviewer = reviewer, 
+         "Score difference" = total_abs_difference, 
+         Comparator = pair_name) %>% 
+  ggplot(aes(x = Reviewer, y = `Score difference`, fill = Comparator)) +
+  geom_col(position = "fill") +
+  coord_flip() +
+  theme_minimal() +
+  guides(fill = guide_legend(title = "Comparator")) +
+  ggtitle("Similar Scorers \n<span style='font-size:10pt'>Those with smaller areas scored the closest to you</span>") +
+  xlab("") +
+  ylab("score difference")
+
+ tea_close_score_plot <- ggplotly(gg_tea_close_score)
+ 
+ tea_close_score_plot %>% 
+  layout(hovermode = "y unified")
+
+ # Biscuit ####
+ 
+ gg_biscuit <- advent_appraisals_2024_clean %>%
+  filter(edible == "biscuit_score_out_of_10") %>%
+  rename(Reviewer = reviewer) %>% 
+  ggplot(aes(x = day, y = rating, colour = Reviewer)) +
+  geom_line(show.legend = FALSE) +
+  geom_point() +
+  theme_minimal()
+ 
+ biscuit_plot <- ggplotly(gg_biscuit) %>%
+  add_text(x = ~day, y = ~rating, showlegend = FALSE, legendgroup = 1,
+           text = ~max_score, textposition = "topright")
+ 
+ for (i in seq_along(pair_cols)){
+  biscuit_plot$x$data[[i]]$legendgroup <- 1
+ }
+ 
+ biscuit_scoresheet <- advent_appraisals_2024 %>% 
+  group_by(day) %>% 
+  select(day, reviewer, biscuit_score_out_of_10)
+ 
+ biscuit_closest_score <- left_join(biscuit_scoresheet, 
+                                    biscuit_scoresheet %>%  
+                                 pivot_wider(names_from = reviewer, values_from = biscuit_score_out_of_10),
+                                by = "day") %>% 
+  pivot_longer(names_to = "pair_name", values_to = "pair_score", cols = all_of(pair_cols)) %>% 
+  filter(reviewer != pair_name) %>% 
+  mutate(score_diff = abs(biscuit_score_out_of_10 - pair_score)) %>% 
+  group_by(reviewer, pair_name) %>% 
+  summarise(
+   total_abs_difference = sum(score_diff, na.rm = TRUE), .groups = "drop"
+  )
+ 
+ gg_biscuit_close_score <- biscuit_closest_score %>% 
+  rename(Reviewer = reviewer, 
+         "Score difference" = total_abs_difference, 
+         Comparator = pair_name) %>% 
+  ggplot(aes(x = Reviewer, y = `Score difference`, fill = Comparator)) +
+  geom_col(position = "fill") +
+  coord_flip() +
+  theme_minimal() +
+  guides(fill = guide_legend(title = "Comparator")) +
+  ggtitle("Similar Scorers \n<span style='font-size:10pt'>Those with smaller areas scored the closest to you</span>") +
+  xlab("") +
+  ylab("score difference")
+ 
+ biscuit_close_score_plot <- ggplotly(gg_biscuit_close_score)
+ 
+ 
+ # Pairing ####
+ 
+ gg_combination <- advent_appraisals_2024_clean %>%
+  filter(edible == "combination_score_out_of_10") %>%
+  rename(Reviewer = reviewer) %>% 
+  ggplot(aes(x = day, y = rating, colour = Reviewer)) +
+  geom_line(show.legend = FALSE) +
+  geom_point() +
+  theme_minimal()
+ 
+ combination_plot <- ggplotly(gg_combination) %>%
+  add_text(x = ~day, y = ~rating, showlegend = FALSE, legendgroup = 1,
+           text = ~max_score, textposition = "topright")
+ 
+ for (i in seq_along(pair_cols)){
+  combination_plot$x$data[[i]]$legendgroup <- 1
+ }
+ 
+ combination_scoresheet <- advent_appraisals_2024 %>% 
+  group_by(day) %>% 
+  select(day, reviewer, combination_score_out_of_10)
+
+ combination_closest_score <- left_join(combination_scoresheet, 
+                                combination_scoresheet %>%  
+                                 pivot_wider(names_from = reviewer, values_from = combination_score_out_of_10),
+                                by = "day") %>% 
+  pivot_longer(names_to = "pair_name", values_to = "pair_score", cols = all_of(pair_cols)) %>% 
+  filter(reviewer != pair_name) %>% 
+  mutate(score_diff = abs(combination_score_out_of_10 - pair_score)) %>% 
+  group_by(reviewer, pair_name) %>% 
+  summarise(
+   total_abs_difference = sum(score_diff, na.rm = TRUE), .groups = "drop"
+  )
+ 
+ gg_combination_close_score <- combination_closest_score %>% 
+  rename(Reviewer = reviewer, 
+         "Score difference" = total_abs_difference, 
+         Comparator = pair_name) %>% 
+  ggplot(aes(x = Reviewer, y = `Score difference`, fill = Comparator)) +
+  geom_col(position = "fill") +
+  coord_flip() +
+  theme_minimal() +
+  guides(fill = guide_legend(title = "Comparator")) +
+  ggtitle("Similar Scorers \n<span style='font-size:10pt'>Those with smaller areas scored the closest to you</span>") +
+  xlab("") +
+  ylab("score difference")
+ 
+ combination_close_score_plot <- ggplotly(gg_combination_close_score)
+ 

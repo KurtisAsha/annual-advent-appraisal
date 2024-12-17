@@ -24,7 +24,7 @@ Row {data-height = 150}
 ```{r}
 
 valueBox(value = filter(advent_averages, tea_score == max(tea_score, na.rm = TRUE)) %>% 
-          pull(`Tea Name`))
+          pull(tea_name))
 
 ```
 
@@ -33,23 +33,27 @@ valueBox(value = filter(advent_averages, tea_score == max(tea_score, na.rm = TRU
 ```{r}
 
 valueBox(value = filter(advent_averages, tea_score == max(tea_score, na.rm = TRUE)) %>% 
-          pull(tea_score) %>% 
-          cat(sep = ", "))
-
+          pull(tea_score) %>%
+          round(digits = 1) %>% 
+          cat(sep = ", ")) 
+  
 ```
 
-### Test {.value-box}
+### Average Tea Score {.value-box}
 
 ```{r}
 
-valueBox(value = cat("option1", "option2", sep = ", "))
+valueBox(value =  summarise(advent_averages, 
+           average_tea_score = mean(tea_score, na.rm = TRUE)) %>% 
+  pull() %>% 
+  round(digits = 1))
 
 ```
 
 Row {data-height = 350}
 ------------------------------------------------------------------
 
-### Tea plot
+### Tea Plot
 
 ```{r}
 
@@ -57,28 +61,127 @@ tea_plot
 
 ```
 
-### Tea plot
+### Tea - Closest Scores
 
 ```{r}
 
-tea_plot
+tea_close_score_plot %>% 
+  layout(hovermode = "y unified")
 
 ```
 
-Biscuits
+
+Biscuit
 =================================================================
 
+Row {data-height = 150}
+------------------------------------------------------------------
+
+### Best Biscuit Name {.value-box}
+
 ```{r}
 
-"Biscuits"
+valueBox(value = filter(advent_averages, biscuit_score == max(biscuit_score, na.rm = TRUE)) %>% 
+          pull(biscuit_name))
 
-```   
+```
+
+### Best Biscuit Score {.value-box}
+
+```{r}
+
+valueBox(value = filter(advent_averages, biscuit_score == max(biscuit_score, na.rm = TRUE)) %>% 
+          pull(biscuit_score) %>%
+          round(digits = 1) %>% 
+          cat(sep = ", ")) 
+  
+```
+
+### Average Biscuit Score {.value-box}
+
+```{r}
+
+valueBox(value =  summarise(advent_averages, 
+           average_biscuit_score = mean(biscuit_score, na.rm = TRUE)) %>% 
+  pull() %>% 
+  round(digits = 1))
+
+```
+
+Row {data-height = 350}
+------------------------------------------------------------------
+
+### Biscuit Plot
+
+```{r}
+
+biscuit_plot
+
+```
+
+### Biscuit - Closest Scores
+
+```{r}
+
+biscuit_close_score_plot %>% 
+  layout(hovermode = "y unified")
+
+```
 
 Pairing
 =================================================================
 
+Row {data-height = 150}
+------------------------------------------------------------------
+
+### Best Pairing Name {.value-box}
+
 ```{r}
 
-"Pairing"
+valueBox(value = filter(advent_averages, pairing_score == max(pairing_score, na.rm = TRUE)) %>% 
+          mutate(pairing_name = paste(tea_name, biscuit_name, sep = " & ")) %>% 
+          pull(pairing_name))
+
+```
+
+### Best Pairing Score {.value-box}
+
+```{r}
+
+valueBox(value = filter(advent_averages, pairing_score == max(pairing_score, na.rm = TRUE)) %>% 
+          pull(pairing_score) %>%
+          round(digits = 1) %>% 
+          cat(sep = ", ")) 
+  
+```
+
+### Average Pairing Score {.value-box}
+
+```{r}
+
+valueBox(value =  summarise(advent_averages, 
+           average_tea_score = mean(tea_score, na.rm = TRUE)) %>% 
+  pull() %>% 
+  round(digits = 1))
+
+```
+
+Row {data-height = 350}
+------------------------------------------------------------------
+
+### Pairing Plot
+
+```{r}
+
+combination_plot
+
+```
+
+### Pairing - Closest Scores
+
+```{r}
+
+combination_close_score_plot %>% 
+  layout(hovermode = "y unified")
 
 ```
