@@ -16,7 +16,7 @@ source("./R/data-ingest.R")
 Tea
 =================================================================
 
-Row {data-height = 150}
+Row {data-height = 100}
 ------------------------------------------------------------------
 
 ### Best Tea Name {.value-box}
@@ -39,7 +39,7 @@ valueBox(value = filter(advent_averages, tea_score == max(tea_score, na.rm = TRU
   
 ```
 
-### Average Tea Score {.value-box}
+### Avg Tea Score {.value-box}
 
 ```{r}
 
@@ -50,7 +50,7 @@ valueBox(value =  summarise(advent_averages,
 
 ```
 
-Row {data-height = 350}
+Row {data-height = 400}
 ------------------------------------------------------------------
 
 ### Tea Plot
@@ -74,7 +74,7 @@ tea_close_score_plot %>%
 Biscuit
 =================================================================
 
-Row {data-height = 150}
+Row {data-height = 100}
 ------------------------------------------------------------------
 
 ### Best Biscuit Name {.value-box}
@@ -97,7 +97,7 @@ valueBox(value = filter(advent_averages, biscuit_score == max(biscuit_score, na.
   
 ```
 
-### Average Biscuit Score {.value-box}
+### Avg Biscuit Score {.value-box}
 
 ```{r}
 
@@ -108,7 +108,7 @@ valueBox(value =  summarise(advent_averages,
 
 ```
 
-Row {data-height = 350}
+Row {data-height = 400}
 ------------------------------------------------------------------
 
 ### Biscuit Plot
@@ -131,7 +131,7 @@ biscuit_close_score_plot %>%
 Pairing
 =================================================================
 
-Row {data-height = 150}
+Row {data-height = 100}
 ------------------------------------------------------------------
 
 ### Best Pairing Name {.value-box}
@@ -140,7 +140,8 @@ Row {data-height = 150}
 
 valueBox(value = filter(advent_averages, pairing_score == max(pairing_score, na.rm = TRUE)) %>% 
           mutate(pairing_name = paste(tea_name, biscuit_name, sep = " & ")) %>% 
-          pull(pairing_name))
+          pull(pairing_name) %>% 
+          cat(sep = ", "))
 
 ```
 
@@ -151,11 +152,11 @@ valueBox(value = filter(advent_averages, pairing_score == max(pairing_score, na.
 valueBox(value = filter(advent_averages, pairing_score == max(pairing_score, na.rm = TRUE)) %>% 
           pull(pairing_score) %>%
           round(digits = 1) %>% 
-          cat(sep = ", ")) 
+          cat(sep = ", \n")) 
   
 ```
 
-### Average Pairing Score {.value-box}
+### Avg Pairing Score {.value-box}
 
 ```{r}
 
@@ -166,7 +167,7 @@ valueBox(value =  summarise(advent_averages,
 
 ```
 
-Row {data-height = 350}
+Row {data-height = 400}
 ------------------------------------------------------------------
 
 ### Pairing Plot

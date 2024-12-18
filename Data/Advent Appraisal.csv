@@ -1,17 +1,69 @@
 Day,Tea Name,Biscuit Name,Reviewer,Tea Score (out of 10),Biscuit Score (out of 10),Combination Score (out of 10)
-1,Royal Blend,Chocolossus,Sofia,10,4,1
 1,Royal Blend,Chocolossus,Kurtis,9,8,2
-1,Royal Blend,Chocolossus,Guess,7,3,3
-2,Black Tea with Vanilla,Piccadilly Chocolate Pearl Biscuits,Sofia,6,4,7
+1,Royal Blend,Chocolossus,Laura,9,9.5,7
+1,Royal Blend,Chocolossus,Skye,10,6,7
+1,Royal Blend,Chocolossus,Sofia,10,4,1
 2,Black Tea with Vanilla,Piccadilly Chocolate Pearl Biscuits,Kurtis,4,4,4
-2,Black Tea with Vanilla,Piccadilly Chocolate Pearl Biscuits,Guess,9,5,7
-3,Green Tea with Mandarin ,Piccadilly Stem Ginger Biscuits ,Sofia,7,7,10
+2,Black Tea with Vanilla,Piccadilly Chocolate Pearl Biscuits,Laura,10,9,10
+2,Black Tea with Vanilla,Piccadilly Chocolate Pearl Biscuits,Skye,9,9,10
+2,Black Tea with Vanilla,Piccadilly Chocolate Pearl Biscuits,Sofia,6,4,7
 3,Green Tea with Mandarin ,Piccadilly Stem Ginger Biscuits ,Kurtis,4,8,7
-4,Christmas Black Tea,Christmas Biscuit,Sofia,8,6,5
+3,Green Tea with Mandarin ,Piccadilly Stem Ginger Biscuits ,Laura,6,7.5,5
+3,Green Tea with Mandarin ,Piccadilly Stem Ginger Biscuits ,Skye,2,7,5
+3,Green Tea with Mandarin ,Piccadilly Stem Ginger Biscuits ,Sofia,7,7,10
 4,Christmas Black Tea,Christmas Biscuit,Kurtis,6,6,7
-5,Victoria Grey Tea,Victoria Grey Tea Biscuit,Sofia,1,2,2
+4,Christmas Black Tea,Christmas Biscuit,Laura,8,8,10
+4,Christmas Black Tea,Christmas Biscuit,Skye,9,10,10
+4,Christmas Black Tea,Christmas Biscuit,Sofia,8,6,5
 5,Victoria Grey Tea,Victoria Grey Tea Biscuit,Kurtis,8,6,7
-6,Jade Oolong Tea,Piccadilly Chocolate Pearl Biscuits,Sofia,7,4,5
+5,Victoria Grey Tea,Victoria Grey Tea Biscuit,Laura,9,9,10
+5,Victoria Grey Tea,Victoria Grey Tea Biscuit,Skye,7,6,10
+5,Victoria Grey Tea,Victoria Grey Tea Biscuit,Sofia,1,2,2
 6,Jade Oolong Tea,Piccadilly Chocolate Pearl Biscuits,Kurtis,5,4,2
-7,Green Tea with Elderflower ,Piccadilly Lemon Curd,Sofia,2,3,3
+6,Jade Oolong Tea,Piccadilly Chocolate Pearl Biscuits,Laura,6,9,1
+6,Jade Oolong Tea,Piccadilly Chocolate Pearl Biscuits,Skye,3,9,2
+6,Jade Oolong Tea,Piccadilly Chocolate Pearl Biscuits,Sofia,7,4,5
 7,Green Tea with Elderflower ,Piccadilly Lemon Curd,Kurtis,5,6,7
+7,Green Tea with Elderflower ,Piccadilly Lemon Curd,Laura,3,2,2
+7,Green Tea with Elderflower ,Piccadilly Lemon Curd,Skye,7,8,7
+7,Green Tea with Elderflower ,Piccadilly Lemon Curd,Sofia,2,3,3
+8,Chai Tea,Toffolossus,Kurtis,7,9,10
+8,Chai Tea,Toffolossus,Laura,8,10,5
+8,Chai Tea,Toffolossus,Skye,8,10,8
+8,Chai Tea,Toffolossus,Sofia,9,8,10
+9,Assam TGFOP,Piccadilly Salted Caramel,Kurtis,6,5,6
+9,Assam TGFOP,Piccadilly Salted Caramel,Laura,10,8.5,10
+9,Assam TGFOP,Piccadilly Salted Caramel,Skye,10,10,10
+9,Assam TGFOP,Piccadilly Salted Caramel,Sofia,7,7,8
+10,Green Tea with Lemon,Pistachio & Clotted Cream,Kurtis,6,5,7
+10,Green Tea with Lemon,Pistachio & Clotted Cream,Laura,4,4,2
+10,Green Tea with Lemon,Pistachio & Clotted Cream,Skye,4,7,2
+10,Green Tea with Lemon,Pistachio & Clotted Cream,Sofia,5,6,9
+11,Darjeeling FTGFOP,Piccadilly Lemon Curd,Kurtis,8,6,7
+11,Darjeeling FTGFOP,Piccadilly Lemon Curd,Laura,8,2,1
+11,Darjeeling FTGFOP,Piccadilly Lemon Curd,Skye,8,8,8
+11,Darjeeling FTGFOP,Piccadilly Lemon Curd,Sofia,5,5,5
+12,Christmas Green Tea,Christmas Chocolate Orange ,Kurtis,10,5,5
+12,Christmas Green Tea,Christmas Chocolate Orange ,Laura,1,5,2
+12,Christmas Green Tea,Christmas Chocolate Orange ,Skye,1,2,5
+12,Christmas Green Tea,Christmas Chocolate Orange ,Sofia,5,2,4
+13,Smoky Earl Grey Tea,Piccadilly Salted Caramel,Kurtis,10,5,3
+13,Smoky Earl Grey Tea,Piccadilly Salted Caramel,Laura,6,8.5,8
+13,Smoky Earl Grey Tea,Piccadilly Salted Caramel,Skye,7,10,7
+13,Smoky Earl Grey Tea,Piccadilly Salted Caramel,Sofia,6,4,1
+14,Black Tea with Strawberry ,Rose Biscuit,Kurtis,1,6,9
+14,Black Tea with Strawberry ,Rose Biscuit,Laura,8,4,7
+14,Black Tea with Strawberry ,Rose Biscuit,Skye,8,5,6
+14,Black Tea with Strawberry ,Rose Biscuit,Sofia,2,2,10
+15,"Christmas Plum, Apple, and Cinnamon ",Gingerlossus,Kurtis,5,10,7
+15,"Christmas Plum, Apple, and Cinnamon ",Gingerlossus,Laura,2,0,4
+15,"Christmas Plum, Apple, and Cinnamon ",Gingerlossus,Skye,4,6,3
+15,"Christmas Plum, Apple, and Cinnamon ",Gingerlossus,Sofia,5,6,3
+16,Black Tea with Peach ,Piccadilly Macadamia Nut,Kurtis,6,8,8
+16,Black Tea with Peach ,Piccadilly Macadamia Nut,Laura,6,7,8
+16,Black Tea with Peach ,Piccadilly Macadamia Nut,Skye,5,6,3
+16,Black Tea with Peach ,Piccadilly Macadamia Nut,Sofia,3,3,3
+17,Classic Earl Grey ,Earl Grey Biscuit ,Kurtis,4,4,4
+17,Classic Earl Grey ,Earl Grey Biscuit ,Laura,8,8,10
+17,Classic Earl Grey ,Earl Grey Biscuit ,Skye,10,7,10
+17,Classic Earl Grey ,Earl Grey Biscuit ,Sofia,8,8,10

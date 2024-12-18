@@ -35,24 +35,33 @@ advent_averages <- advent_appraisals_2024 %>%
                         combination_score_out_of_10), 
                names_to = "edible",
                values_to = "rating") %>%
-  group_by(reviewer) %>%
+  group_by(reviewer, edible) %>%
   mutate(tooltip = paste0(reviewer, ": ", rating), 
          max_score = if_else(max(rating) == rating,
-                             paste0(reviewer, "'s Best"), NA)) 
+                             paste0(reviewer, "'s Best"), NA)) %>% 
+  ungroup()
  
  # Tea ####
  
- gg_tea <- advent_appraisals_2024_clean %>%
+ tea_plot <- advent_appraisals_2024_clean %>%
   filter(edible == "tea_score_out_of_10") %>%
-  rename(Reviewer = reviewer) %>% 
-  ggplot(aes(x = day, y = rating, colour = Reviewer)) +
-  geom_line(show.legend = FALSE) +
-  geom_point() +
-  theme_minimal()
+  rename(Reviewer = reviewer) %>%
+  plot_ly(
+   x = ~day,
+   y = ~rating,
+   color = ~Reviewer,
+   type = "scatter",
+   mode = "lines+markers", 
+   text = ~tea_name,
+   legendgroup = ~Reviewer, 
+   hovertemplate = paste("<b>Tea</b>: %{text}",
+                         '<br><b>Rating</b>: %{y}',
+                         '<br><b>Day</b>: %{x}<br>')) %>%
+  config(responsive = FALSE, 
+         displaylogo = FALSE) %>% 
+  layout(yaxis = list(linecolor = "#ffffff"), 
+         xaxis = list(linecolor = "#ffffff")) 
  
- tea_plot <- ggplotly(gg_tea) %>%
-  add_text(x = ~day, y = ~rating, showlegend = FALSE, legendgroup = ~Reviewer,
-           text = ~max_score, textposition = "topright")
  
 tea_scoresheet <- advent_appraisals_2024 %>% 
   group_by(day) %>% 
@@ -90,21 +99,24 @@ gg_tea_close_score <- tea_closest_score %>%
 
  # Biscuit ####
  
- gg_biscuit <- advent_appraisals_2024_clean %>%
+ biscuit_plot <- advent_appraisals_2024_clean %>%
   filter(edible == "biscuit_score_out_of_10") %>%
-  rename(Reviewer = reviewer) %>% 
-  ggplot(aes(x = day, y = rating, colour = Reviewer)) +
-  geom_line(show.legend = FALSE) +
-  geom_point() +
-  theme_minimal()
- 
- biscuit_plot <- ggplotly(gg_biscuit) %>%
-  add_text(x = ~day, y = ~rating, showlegend = FALSE, legendgroup = 1,
-           text = ~max_score, textposition = "topright")
- 
- for (i in seq_along(pair_cols)){
-  biscuit_plot$x$data[[i]]$legendgroup <- 1
- }
+  rename(Reviewer = reviewer) %>%
+  plot_ly(
+   x = ~day,
+   y = ~rating,
+   color = ~Reviewer,
+   type = "scatter",
+   mode = "lines+markers", 
+   text = ~biscuit_name,
+   legendgroup = ~Reviewer, 
+   hovertemplate = paste("<b>Biscuit</b>: %{text}",
+                         '<br><b>Rating</b>: %{y}',
+                         '<br><b>Day</b>: %{x}<br>')) %>%
+  config(responsive = FALSE, 
+         displaylogo = FALSE) %>% 
+  layout(yaxis = list(linecolor = "#ffffff"), 
+         xaxis = list(linecolor = "#ffffff")) 
  
  biscuit_scoresheet <- advent_appraisals_2024 %>% 
   group_by(day) %>% 
@@ -140,21 +152,23 @@ gg_tea_close_score <- tea_closest_score %>%
  
  # Pairing ####
  
- gg_combination <- advent_appraisals_2024_clean %>%
+ combination_plot <- advent_appraisals_2024_clean %>%
   filter(edible == "combination_score_out_of_10") %>%
-  rename(Reviewer = reviewer) %>% 
-  ggplot(aes(x = day, y = rating, colour = Reviewer)) +
-  geom_line(show.legend = FALSE) +
-  geom_point() +
-  theme_minimal()
- 
- combination_plot <- ggplotly(gg_combination) %>%
-  add_text(x = ~day, y = ~rating, showlegend = FALSE, legendgroup = 1,
-           text = ~max_score, textposition = "topright")
- 
- for (i in seq_along(pair_cols)){
-  combination_plot$x$data[[i]]$legendgroup <- 1
- }
+  rename(Reviewer = reviewer) %>%
+  plot_ly(
+   x = ~day,
+   y = ~rating,
+   color = ~Reviewer,
+   type = "scatter",
+   mode = "lines+markers", 
+   text = ~paste0(tea_name, " & ", biscuit_name),
+   legendgroup = ~Reviewer, 
+   hovertemplate = paste("<b>Combination</b>: %{text}",
+                         '<br><b>Rating</b>: %{y}',
+                         '<br><b>Day</b>: %{x}<br>')) %>%
+  config(responsive = FALSE, 
+         displaylogo = FALSE) %>% 
+  layout(yaxis = list(linecolor = "#ffffff")) 
  
  combination_scoresheet <- advent_appraisals_2024 %>% 
   group_by(day) %>% 
