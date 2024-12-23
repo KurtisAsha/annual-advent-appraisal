@@ -6,7 +6,7 @@ library(flexdashboard)
 
 advent_appraisals_2024 <- read_csv("./Data/Advent Appraisal.csv")  %>% 
  clean_names()
-
+ 
 pair_cols <- unique(advent_appraisals_2024$reviewer)
  
 # Gives the highest scores ####
@@ -50,6 +50,7 @@ advent_averages <- advent_appraisals_2024 %>%
    x = ~day,
    y = ~rating,
    color = ~Reviewer,
+   colors = c("#781714", "#3d8c40", "#fbcd18", "#450b70"),
    type = "scatter",
    mode = "lines+markers", 
    text = ~tea_name,
@@ -86,17 +87,17 @@ gg_tea_close_score <- tea_closest_score %>%
   ggplot(aes(x = Reviewer, y = `Score difference`, fill = Comparator)) +
   geom_col(position = "fill") +
   coord_flip() +
+ scale_fill_manual(values = c("#781714", "#3d8c40", "#fbcd18", "#450b70")) +
   theme_minimal() +
   guides(fill = guide_legend(title = "Comparator")) +
   ggtitle("Similar Scorers \n<span style='font-size:10pt'>Those with smaller areas scored the closest to you</span>") +
   xlab("") +
   ylab("score difference")
 
- tea_close_score_plot <- ggplotly(gg_tea_close_score)
+ tea_close_score_plot <- ggplotly(gg_tea_close_score) %>% 
+  config(responsive = FALSE, 
+         displaylogo = FALSE)
  
- tea_close_score_plot %>% 
-  layout(hovermode = "y unified")
-
  # Biscuit ####
  
  biscuit_plot <- advent_appraisals_2024_clean %>%
@@ -106,6 +107,7 @@ gg_tea_close_score <- tea_closest_score %>%
    x = ~day,
    y = ~rating,
    color = ~Reviewer,
+   colors = c("#781714", "#3d8c40", "#fbcd18", "#450b70"),
    type = "scatter",
    mode = "lines+markers", 
    text = ~biscuit_name,
@@ -141,13 +143,16 @@ gg_tea_close_score <- tea_closest_score %>%
   ggplot(aes(x = Reviewer, y = `Score difference`, fill = Comparator)) +
   geom_col(position = "fill") +
   coord_flip() +
+  scale_fill_manual(values = c("#781714", "#3d8c40", "#fbcd18", "#450b70")) +
   theme_minimal() +
   guides(fill = guide_legend(title = "Comparator")) +
   ggtitle("Similar Scorers \n<span style='font-size:10pt'>Those with smaller areas scored the closest to you</span>") +
   xlab("") +
   ylab("score difference")
  
- biscuit_close_score_plot <- ggplotly(gg_biscuit_close_score)
+ biscuit_close_score_plot <- ggplotly(gg_biscuit_close_score) %>% 
+  config(responsive = FALSE, 
+         displaylogo = FALSE)
  
  
  # Pairing ####
@@ -159,6 +164,7 @@ gg_tea_close_score <- tea_closest_score %>%
    x = ~day,
    y = ~rating,
    color = ~Reviewer,
+   colors = c("#781714", "#3d8c40", "#fbcd18", "#450b70"),
    type = "scatter",
    mode = "lines+markers", 
    text = ~paste0(tea_name, " & ", biscuit_name),
@@ -193,11 +199,14 @@ gg_tea_close_score <- tea_closest_score %>%
   ggplot(aes(x = Reviewer, y = `Score difference`, fill = Comparator)) +
   geom_col(position = "fill") +
   coord_flip() +
+  scale_fill_manual(values = c("#781714", "#3d8c40", "#fbcd18", "#450b70")) +
   theme_minimal() +
   guides(fill = guide_legend(title = "Comparator")) +
   ggtitle("Similar Scorers \n<span style='font-size:10pt'>Those with smaller areas scored the closest to you</span>") +
   xlab("") +
   ylab("score difference")
  
- combination_close_score_plot <- ggplotly(gg_combination_close_score)
+ combination_close_score_plot <- ggplotly(gg_combination_close_score) %>% 
+  config(responsive = FALSE, 
+         displaylogo = FALSE)
  

@@ -1,7 +1,13 @@
 ---
-title: "Advent Appraisal 2024"
+title: "Advent Appraisal 2024 - Fortnum & Mason"
 output: 
  flexdashboard::flex_dashboard:
+  theme:
+      version: 4
+      bg: "#FFFFFF"
+      fg: "#FFFFFF" 
+      primary: "#B91F1C"
+      navbar-bg: "#B91F1C"
   orientation: rows
   vertical_layout: fill
   horizontal_layout: fill
@@ -138,10 +144,10 @@ Row {data-height = 100}
 
 ```{r}
 
-valueBox(value = filter(advent_averages, pairing_score == max(pairing_score, na.rm = TRUE)) %>% 
+valueBox(filter(advent_averages, pairing_score == max(pairing_score, na.rm = TRUE)) %>% 
           mutate(pairing_name = paste(tea_name, biscuit_name, sep = " & ")) %>% 
           pull(pairing_name) %>% 
-          cat(sep = ", "))
+          paste(collapse = ", "))
 
 ```
 
@@ -150,9 +156,8 @@ valueBox(value = filter(advent_averages, pairing_score == max(pairing_score, na.
 ```{r}
 
 valueBox(value = filter(advent_averages, pairing_score == max(pairing_score, na.rm = TRUE)) %>% 
-          pull(pairing_score) %>%
-          round(digits = 1) %>% 
-          cat(sep = ", \n")) 
+          pull(pairing_score) %>% 
+          cat(sep = ", ")) 
   
 ```
 
