@@ -30,7 +30,9 @@ Row {data-height = 100}
 ```{r}
 
 valueBox(value = filter(advent_averages, tea_score == max(tea_score, na.rm = TRUE)) %>% 
-          pull(tea_name))
+          pull(tea_name) %>%
+          unique() %>% 
+          paste(collapse = ", "))
 
 ```
 
@@ -40,8 +42,9 @@ valueBox(value = filter(advent_averages, tea_score == max(tea_score, na.rm = TRU
 
 valueBox(value = filter(advent_averages, tea_score == max(tea_score, na.rm = TRUE)) %>% 
           pull(tea_score) %>%
-          round(digits = 1) %>% 
-          cat(sep = ", ")) 
+          round(digits = 1) %>%
+          unique() %>% 
+          paste(collapse = ", ")) 
   
 ```
 
